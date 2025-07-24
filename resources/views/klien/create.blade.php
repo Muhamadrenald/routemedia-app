@@ -57,12 +57,13 @@
                             <label for="no_whatsapp" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Nomor WhatsApp
                             </label>
-                            <input type="number"
-                                   id="no_whatsapp"
-                                   name="no_whatsapp"
-                                   class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
-                                   value="{{ old('no_whatsapp') }}"
-                                   required />
+                            <input
+                                type="tel" id="no_whatsapp"
+                                name="no_whatsapp"
+                                class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+                                value="{{ old('no_whatsapp') }}"
+                                required
+                                pattern="\+\d+" title="Format harus diawali dengan '+' diikuti angka, contoh: +628123456789" placeholder="+628123456789" />
                             @error('no_whatsapp')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror

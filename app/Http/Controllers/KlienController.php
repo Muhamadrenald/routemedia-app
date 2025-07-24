@@ -32,16 +32,19 @@ class KlienController extends Controller
      */
     public function store(Request $request)
     {
+        // PERUBAHAN: Menambahkan validasi regex untuk no_whatsapp
         $request->validate([
             'nama_klien' => 'required|string|max:255',
             'alamat' => 'required|string',
-            'no_whatsapp' => 'required|string|max:20',
+            'no_whatsapp' => 'required|string|max:20|regex:/^\+\d+$/',
             'paket_internet_id' => 'required|exists:paket_internets,id',
             'foto_ktp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            // Pesan error kustom untuk format yang salah
+            'no_whatsapp.regex' => 'Format No. WhatsApp tidak valid. Gunakan format internasional (contoh: +628123456789).'
         ]);
 
         try {
-            // Simpan file ke folder 'ktp' di dalam disk 'public'
             $path = $request->file('foto_ktp')->store('ktp', 'public');
 
             Klien::create([
@@ -81,12 +84,16 @@ class KlienController extends Controller
      */
     public function update(Request $request, Klien $klien)
     {
+        // PERUBAHAN: Menambahkan validasi regex untuk no_whatsapp
         $request->validate([
             'nama_klien' => 'required|string|max:255',
             'alamat' => 'required|string',
-            'no_whatsapp' => 'required|string|max:20',
+            'no_whatsapp' => 'required|string|max:20|regex:/^\+\d+$/',
             'paket_internet_id' => 'required|exists:paket_internets,id',
             'foto_ktp' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            // Pesan error kustom untuk format yang salah
+            'no_whatsapp.regex' => 'Format No. WhatsApp tidak valid. Gunakan format internasional (contoh: +628123456789).'
         ]);
 
         try {
@@ -96,7 +103,6 @@ class KlienController extends Controller
                 if ($klien->foto_ktp) {
                     Storage::delete($klien->foto_ktp);
                 }
-                // PERBAIKAN: Menggunakan path yang benar agar konsisten dengan method store()
                 $path = $request->file('foto_ktp')->store('ktp', 'public');
                 $data['foto_ktp'] = $path;
             }
